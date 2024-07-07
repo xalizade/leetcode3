@@ -1,0 +1,498 @@
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack=[]
+        pairs={
+            '(':')',
+            '{':'}',
+            '[':']'
+        }
+        for bracket in s:
+            if bracket in pairs:
+                stack.append(bracket)
+            elif len(stack)==0 or bracket!=pairs[stack.pop()]:
+                return False
+        return len(stack)==0
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root : return 0
+        level=0
+        q=deque([root])
+        while q :
+            for i in range(len(q)):
+                node=q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            level+=1
+        return level
+
+
+
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode()
+        res = dummy
+        total = carry = 0
+        while l1 or l2 or carry:
+            total = carry
+            if l1:
+                total += l1.val
+                l1 = l1.next
+            if l2:
+                total += l2.val
+                l2 = l2.next
+            num = total % 10
+            carry = total // 10
+            dummy.next = ListNode(num)
+            dummy = dummy.next
+        return res.next
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        list=[]
+        def inorder(node):
+            if node is None:
+                return
+            inorder(node.left)
+            list.append(node.val)
+            inorder(node.right)
+        inorder(root)
+        return list
+    
+
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        right_view = []
+        queue = deque([root])
+        while queue:
+            level_length = len(queue)
+            for i in range(level_length):
+                node = queue.popleft()
+                # if it's the rightmost element at the level
+                if i == level_length - 1:
+                    right_view.append(node.val)
+                # add child nodes in the queue
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        return right_view
+        
+        def dfs(node,level):
+            if not node:
+                return []
+            if level==len(right):
+                right.append(node.val)
+            dfs(node.right,level+1)
+            dfs(node.left,level+1)
+        right=[]
+        dfs(root,0)
+        return right
+
+
+
+
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        def dfs(node, level):
+            if not node:
+                return
+            if level == len(right_view):
+                right_view.append(node.val)
+            dfs(node.right, level + 1)
+            dfs(node.left, level + 1)
+
+        right_view = []
+        dfs(root, 0)
+        return right_view
+
+
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        if not head or not head.next:
+            return False
+        slow = head
+        fast = head.next
+        while slow != fast:
+            if not fast or not fast.next:
+                return False
+            slow = slow.next
+            fast = fast.next.next
+        
+        
+        return True
+
+
+
+class MyQueue:
+
+    def __init__(self):
+        self.in_stack = []
+        self.out_stack = []
+        
+
+    def push(self, x: int) -> None:
+        self.in_stack.append(x)
+        
+
+    def pop(self) -> int:
+        self.peek()  
+        return self.out_stack.pop()
+        
+
+    def peek(self) -> int:
+        if not self.out_stack:
+            while self.in_stack:
+                self.out_stack.append(self.in_stack.pop())
+        return self.out_stack[-1]
+        
+
+    def empty(self) -> bool:
+        return not self.in_stack and not self.out_stack
+
+# Your MyQueue object will be instantiated and called as such:
+# obj = MyQueue()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.peek()
+# param_4 = obj.empty()
+
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        stack, result = [root], []
+        while stack:
+            node = stack.pop()
+            if node:
+                result.append(node.val)
+                if node.right:
+                    stack.append(node.right)
+                if node.left:
+                    stack.append(node.left)
+        return result
+
+
+
+
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        stack = []
+        for token in tokens:
+            if token in "+-*/":
+                b = stack.pop()
+                a = stack.pop()
+                if token == '+':
+                    stack.append(a + b)
+                elif token == '-':
+                    stack.append(a - b)
+                elif token == '*':
+                    stack.append(a * b)
+                elif token == '/':
+                    stack.append(int(a / b))
+            else:
+                stack.append(int(token))
+        return stack.pop()
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        stack = []
+        current = root
+        count = 0
+        while stack or current:
+            while current:
+                stack.append(current)
+                current = current.left
+            current = stack.pop()
+            count += 1
+            if count == k:
+                return current.val
+            current = current.right
+        return -1 
+
+
+
+class Solution:
+    def isValidSerialization(self, preorder: str) -> bool:
+        tokens = preorder.split(',')
+        stack = []
+        
+        for token in tokens:
+            stack.append(token)
+            while len(stack) >= 3 and stack[-1] == '#' and stack[-2] == '#' and stack[-3] != '#':
+                stack.pop() 
+                stack.pop() 
+                if stack[-1] == '#':
+                    return False
+                stack[-1] = '#'
+        return len(stack) == 1 and stack[0] == '#'
+
+
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        freq_map = Counter(nums)
+        min_heap = []
+        for num, freq in freq_map.items():
+            heapq.heappush(min_heap, (freq, num))
+            if len(min_heap) > k:
+                heapq.heappop(min_heap)
+        result = []
+        while min_heap:
+            result.append(heapq.heappop(min_heap)[1])
+        
+        return result
+
+
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        if not root:
+            return []
+        result = []
+        queue = deque([root])
+        while queue:
+            level_size = len(queue)
+            level_vals = []
+            for _ in range(level_size):
+                node = queue.popleft()
+                level_vals.append(node.val)
+                if node.children:
+                    for child in node.children:
+                        queue.append(child)    
+            result.append(level_vals)
+        
+        return result
+
+
+
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        freq = Counter(s)
+        sorted_chars = sorted(freq, key=lambda x: freq[x], reverse=True)
+        result = []
+        for char in sorted_chars:
+            result.append(char * freq[char])
+        
+        return ''.join(result)
+
+
+
+class MyCircularQueue:
+
+    def __init__(self, k: int):
+        self.queue = [0] * k
+        self.size = 0
+        self.capacity = k
+        self.front = 0
+        self.rear = 0
+        
+
+    def enQueue(self, value: int) -> bool:
+        if self.isFull():
+            return False
+        self.queue[self.rear] = value
+        self.rear = (self.rear + 1) % self.capacity
+        self.size += 1
+        return True
+        
+
+    def deQueue(self) -> bool:
+        if self.isEmpty():
+            return False
+        self.front = (self.front + 1) % self.capacity
+        self.size -= 1
+        return True
+        
+
+    def Front(self) -> int:
+        if self.isEmpty():
+            return -1
+        return self.queue[self.front]
+        
+
+    def Rear(self) -> int:
+        if self.isEmpty():
+            return -1
+        return self.queue[(self.rear - 1 + self.capacity) % self.capacity]
+        
+
+    def isEmpty(self) -> bool:
+        return self.size == 0
+        
+
+    def isFull(self) -> bool:
+        return self.size == self.capacity
+
+# Your MyCircularQueue object will be instantiated and called as such:
+# obj = MyCircularQueue(k)
+# param_1 = obj.enQueue(value)
+# param_2 = obj.deQueue()
+# param_3 = obj.Front()
+# param_4 = obj.Rear()
+# param_5 = obj.isEmpty()
+# param_6 = obj.isFull()
+
+
+
+
+
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        freq = Counter(s)
+        max_heap = [(-freq[char], char) for char in freq] 
+        heapq.heapify(max_heap)
+        result = []
+        while len(max_heap) >= 2:
+            f1, char1 = heapq.heappop(max_heap)
+            f2, char2 = heapq.heappop(max_heap)   
+            result.append(char1)
+            result.append(char2)
+            if f1 + 1 < 0:
+                heapq.heappush(max_heap, (f1 + 1, char1))
+            if f2 + 1 < 0:
+                heapq.heappush(max_heap, (f2 + 1, char2))
+        if max_heap:
+            f, char = heapq.heappop(max_heap)
+            if f < -1:
+                return ""
+            result.append(char)
+        
+        return "".join(result)
+
+
+
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        
+        column_map = defaultdict(list)
+        
+        queue = deque([(root, 0, 0)])
+
+        while queue:
+            level_size = len(queue)
+            level_map = defaultdict(list)
+            
+            for _ in range(level_size):
+                node, row, col = queue.popleft()
+                
+            
+                level_map[col].append((row, node.val))
+              
+                if node.left:
+                    queue.append((node.left, row + 1, col - 1))
+                if node.right:
+                    queue.append((node.right, row + 1, col + 1))
+            
+            for col, nodes in level_map.items():
+                column_map[col].extend(sorted(nodes))
+        
+        result = []
+        for col in sorted(column_map.keys()):
+            result.append([val for _, val in sorted(column_map[col])])
+        
+        return result
+
+
+
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        def is_valid(s):
+            balance = 0
+            for char in s:
+                if char == '(':
+                    balance += 1
+                elif char == ')':
+                    balance -= 1
+                    if balance < 0:
+                        return False
+            return balance == 0
+        queue = deque([s])
+        visited = set([s])
+        found = False
+        result = []
+        
+        while queue:
+            current = queue.popleft()
+            
+            if is_valid(current):
+                result.append(current)
+                found = True
+            if found:
+                continue
+            for i in range(len(current)):
+                if current[i] not in '()':
+                    continue
+                next_str = current[:i] + current[i+1:]
+                if next_str not in visited:
+                    visited.add(next_str)
+                    queue.append(next_str)
+        
+        return result
